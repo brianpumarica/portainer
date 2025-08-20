@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      # Puerto para el túnel del Edge Agent
+      - "8000:8000"
+      # Puerto para la interfaz web (HTTPS)
+      - "9443:9443"
+    volumes:
+      # Necesario para que Portainer gestione Docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Apuntamos al volumen de datos que ya creaste
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
+    # Le indicamos a Docker Compose que el volumen ya existe
+    # y que no debe intentar crearlo.
+    external: true
